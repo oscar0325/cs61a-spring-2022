@@ -484,3 +484,46 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
+
+
+
+def height(t):
+    """Return the height of a tree.
+
+    >>> t = tree(3, [tree(5, [tree(1)]), tree(2)])
+    >>> height(t)
+    2
+    """
+    "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return 0
+    else:
+        return max([height(branch) for branch in branches(t)]) + 1
+
+def max_path_sum(t):
+    """Return the maximum path sum of the tree.
+
+    >>> t = tree(1, [tree(5, [tree(1), tree(3)]), tree(10)])
+    >>> max_path_sum(t)
+    11
+    """
+    "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return label(t)
+    else:
+        return max([max_path_sum(branch) for branch in branches(t)]) + label(t)
+
+
+def find_path(tree, x):
+    """
+    >>> t = tree(2, [tree(7, [tree(3), tree(6, [tree(5), tree(11)])] ), tree(15)])
+    >>> find_path(t, 5)
+    [2, 7, 6, 5]
+    >>> find_path(t, 10)  # returns None
+    """
+    if label(tree) == x:
+        return [label(tree)]
+    for branch in branches(tree):
+        path = find_path(branch, x)
+        if path:
+            return path + [label(tree)]
